@@ -1,0 +1,169 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>tim-plugin</title><script type="text/javascript" src="timPlugin.js"></script><script type="text/javascript">
+        var onDeviceReady = function () {
+            console.log("=---=----=-Device ready!")
+            initiateUI();
+        }
+        var initiateUI = function () {
+            $("#setTagsButton").click(function (ev) {
+              try {
+                    var tag1 = $("#tagText1").attr("value");
+                    var tag2 = $("#tagText2").attr("value");
+                    var tag3 = $("#tagText3").attr("value");
+                    var dd = [];
+                    if (tag1 == "" && tag2 == "" && tag3 == "") {
+                        navigator.notification.alert('tags is null!');
+                    }
+                    else {
+                        if (tag1 != "") {
+                            dd.push(tag1);
+                        }
+                        if (tag2 != "") {
+                            dd.push(tag2);
+                        }
+                        if (tag3 != "") {
+                            dd.push(tag3);
+                        }
+                    }
+                    window.plugins.mPushPlugin.setTags(dd);
+
+                }
+                catch (exception) {
+                    console.log(exception);
+                }
+            })
+
+
+            $("#setAliasButton").click(function (ev) {
+                try {
+                    var alias = $("#aliasText").attr("value");
+
+                    if (alias == "") {
+
+                        navigator.notification.alert('alias is null!');
+                    } else {
+                        window.plugins.mPushPlugin.setAlias(alias);
+                    }
+                }
+                catch (exception) {
+                    console.log(exception);
+                }
+            })
+
+            $("#getVcodeButton").click(function (ev) {
+                try {
+                    var mobile = $("#mobileText").attr("value");
+                    if (mobile == "") {
+                        navigator.notification.alert('Mobile is null!');
+                    }
+                    else {
+                        window.plugins.mPushPlugin.authSms(mobile);
+                    }
+                }
+                catch (exception) {
+                    console.log(exception);
+                }
+            })
+
+
+            $("#addLocalNotifiButton").click(function (ev) {
+                try {
+                    var d = new Date();
+                    d = d.getTime() + 60 * 100;
+                    d = new Date(d);
+
+                    window.plugins.mPushPlugin.addLocalNotification({
+                        date: d,
+                        title: 'title',
+                        message: 'message content',
+                        action: {
+                          type:3,
+                          value:'http://www.mpush.cn'
+                        }
+                    });
+                }
+                catch (exception) {
+                    console.log(exception);
+                }
+            })
+        }
+        document.addEventListener("deviceready", onDeviceReady, false);
+    </script>
+</head>
+<body>
+<div data-role="page" id="page">
+
+    <div data-role="content">
+        <form>
+            <div class="ui-body ui-body-b">
+
+                <div data-role="fieldcontain">
+                    <center><h3>MPushPlugin-tim</h3></center>
+                </div>
+                <div data-role="fieldcontain">
+                    <label>Tags: </label>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="text" id="tagText1"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" id="tagText2"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" id="tagText3">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+
+                <div data-role="fieldcontain">
+                    <input type="button" id="setTagsButton" value="Set tags"/>
+                </div>
+
+                <div data-role="fieldcontain">
+
+                    <label>Alias: </label>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="text" id="aliasText">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div data-role="fieldcontain">
+                    <input type="button" id="setAliasButton" value="Add alias"/>
+                </div>
+
+                <div data-role="fieldcontain">
+
+                    <label>Get Verification Code: </label>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="text" id="mobileText">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div data-role="fieldcontain">
+                    <input type="button" id="getVcodeButton" value="Get Verification Code"/>
+                </div>
+
+                <div data-role="fieldcontain">
+                    <input type="button" id="addLocalNotifiButton" value="Add LocalNotification"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
